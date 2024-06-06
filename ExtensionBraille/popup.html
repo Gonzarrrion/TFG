@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Divisor de Líneas Braille</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .title-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      text-align: center;
+      margin: 0;
+      color: #009a4e;
+      font-weight: 700;
+    }
+
+
+    .icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+    }
+
+    .btn-container {
+      display: block;
+      justify-content: space-between;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px 0;
+      margin-right: 20px;
+
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 18px;
+      background-color: #009a4e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    form {
+      margin-bottom: 40px;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+  
+    select {
+      width: 200px;
+      height: 30px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title-container">
+      <img src="images/icono.png" alt="icono" class="icon">
+      <h3 class="card-title">Adaptador de contenidos web para líneas Braille</h3>
+    </div>
+    <form>
+      <label for="charOptions">Seleccione la cantidad de caracteres que lee su dispositivo:</label>
+      <select id="charOptions" name="charOptions">
+        <option value="20">20 caracteres</option>
+        <!-- Valor por defecto: 40 caracteres -->
+        <option value="40" selected>40 caracteres</option>
+        <option value="80">80 caracteres</option>
+      </select>
+    </form>
+    <div class="btn-container">
+      <button id="filtrarBtn" class="btn">Filtrar Contenido</button>
+      <button id="restaurarBtn" class="btn">Restaurar Original</button>
+      <button id="filtrarSinModificarBtn" class="btn">Filtrar sin Modificar</button>
+    </div>
+  </div>
+  <!-- Popup script -->
+  <script src="popup.js"></script>
+</body>
+</html>

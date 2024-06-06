@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Adaptador de contenidos web para Lineas Braille",
+    "version": "1.0",
+    "description": "Divide las lineas de texto en segmentos de menos de 80 caracteres en Braille.",
+
+    "permissions": ["tabs"],
+
+    "action": {
+      "default_icon": "images/icono.png",
+      "default_popup": "popup.html"
+    },
+
+    "content_scripts": [
+      {
+        "matches": ["*://*/*"],
+        "js": ["content.js"],
+        "run_at": "document_idle"
+      }
+    ]
+  }
+  
