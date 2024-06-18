@@ -1,4 +1,4 @@
-let longitudMaxima = 0;
+let longitudMaxima = 40;
 let contenidoFiltrado = false;
 let contenidoOriginal = '';
 
@@ -21,22 +21,31 @@ chrome.runtime.onMessage.addListener(
 );
 
 function dividirLineas(texto, longitudMaxima) {
-  const palabras = texto.split(' ');
-  let lineas = [];
-  let lineaActual = '';
 
-  palabras.forEach((palabra) => {
-    if (lineaActual.length + palabra.length <= longitudMaxima) {
-      lineaActual += palabra + ' ';
-    } else {
+  if (contenidoFiltrado == true) {
+    return;
+  }
+
+  let lineas = [];
+  const bloques = texto.split('\n'); // Divide el texto en bloques por nueva línea
+
+  bloques.forEach((bloque) => {
+    const palabras = bloque.split(' ');
+    let lineaActual = '';
+
+    palabras.forEach((palabra) => {
+      if (lineaActual.length + palabra.length <= longitudMaxima) {
+        lineaActual += palabra + ' ';
+      } else {
+        lineas.push(lineaActual.trim());
+        lineaActual = palabra + ' ';
+      }
+    });
+
+    if (lineaActual !== '') {
       lineas.push(lineaActual.trim());
-      lineaActual = palabra + ' ';
     }
   });
-
-  if (lineaActual !== '') {
-    lineas.push(lineaActual.trim());
-  }
 
   return lineas;
 }
@@ -79,4 +88,6 @@ function filtrarContenidoSinModificar() {
 
   console.log("Líneas filtradas sin modificar:");
   console.log(lineasFiltradas.join('\n'));
+
+  contenidoFiltrado = true;
 }

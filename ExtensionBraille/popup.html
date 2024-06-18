@@ -91,13 +91,16 @@
       <h3 class="card-title">Adaptador de contenidos web para líneas Braille</h3>
     </div>
     <form>
-      <label for="charOptions">Seleccione la cantidad de caracteres que lee su dispositivo:</label>
-      <select id="charOptions" name="charOptions">
+      <label for="longitud">Seleccione la cantidad de caracteres que lee su dispositivo:</label>
+      <select id="longitud" name="longitud">
         <option value="20">20 caracteres</option>
         <!-- Valor por defecto: 40 caracteres -->
         <option value="40" selected>40 caracteres</option>
         <option value="80">80 caracteres</option>
       </select>
+      <!-- Añadir posibilidad de incluir 5 caracteres de info adicional -->
+      <!-- Para evitar problemas con la configuracion, mejor poner un boton "configurar" que nos envie 
+          al menu de configuracion y luego podamos guardar la configuracion -->
     </form>
     <div class="btn-container">
       <button id="filtrarBtn" class="btn">Filtrar Contenido</button>
