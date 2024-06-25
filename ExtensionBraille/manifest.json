@@ -4,11 +4,12 @@
     "version": "1.0",
     "description": "Divide las lineas de texto en segmentos de menos de 80 caracteres en Braille.",
 
-    "permissions": ["tabs"],
+    "permissions": ["tabs", "activeTab", "storage"],
 
     "action": {
       "default_icon": "images/icono.png",
-      "default_popup": "popup.html"
+      "default_popup": "popup.html",
+      "content_scripts": "popup.js"
     },
 
     "content_scripts": [

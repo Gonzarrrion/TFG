@@ -7,12 +7,7 @@
   <title>Divisor de Líneas Braille</title>
 </head>
 <body>
-  <div class="container">
-    <div class="title-container">
-      <img src="images/icono.png" alt="icono" class="icon">
-      <h3 class="card-title">Adaptador de contenidos web para líneas Braille</h3>
-    </div>
-
+    <div class="container">
     <form>
         <label for="longitud">Seleccione la cantidad de caracteres que lee su dispositivo:</label>
         <select id="longitud" name="longitud">
@@ -25,8 +20,7 @@
         <input type="checkbox" id="infoAdicional" name="infoAdicional">
         <label for="infoAdicional">Incluir 5 caracteres de información adicional</label>
         <br>
-        <!-- Opcion por defecto -->
-        <input type="radio" id="brailleComputerizado" name="tipoBraille" value="computerizado" checked>
+        <input type="radio" id="brailleComputerizado" name="tipoBraille" value="computerizado">
         <label for="brailleComputerizado">Leer en Braille computerizado</label>
         <br>
         <input type="radio" id="brailleIntegral" name="tipoBraille" value="integral">
@@ -37,15 +31,8 @@
         <button id="guardarBtn">Guardar</button>
         </div>
     </form>
-    <div class="btn-container">
-    
-      <button id="filtrarBtn" class="btn">Filtrar Contenido</button>
-      <button id="restaurarBtn" class="btn">Restaurar Original</button>
-      <button id="filtrarSinModificarBtn" class="btn">Filtrar sin Modificar</button>
-      <button id="filtrarPorConsolaBtn" class="btn">Filtrar por Consola</button>
     </div>
-  </div>
-  <!-- Popup script -->
-  <script src="popup.js"></script>
+    <!-- Popup script -->
+    <script src="popup.js"></script>
 </body>
 </html>
