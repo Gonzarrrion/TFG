@@ -2,7 +2,7 @@
 //import { equivalenciasBrailleComputerizado, contarCaracteresBrailleComputerizado } from './equivalenciasBraille.js'; 
 
 let contenidoOriginal = '';
-
+let contenidoFiltrado = false;
 let configuracion = {};
 
 chrome.runtime.onMessage.addListener(
@@ -95,20 +95,19 @@ function dividirLineas(texto) {
   });
 }
 
-/*
-function filtrarElemento(elemento) {
+async function filtrarElemento(elemento) {
   if (elemento.nodeType === Node.TEXT_NODE) {
     const texto = elemento.nodeValue;
-    const lineasFiltradas = dividirLineas(texto);
+    const lineasFiltradas = await dividirLineas(texto);
     elemento.nodeValue = lineasFiltradas.join('\n');
   } else {
     for (let i = 0; i < elemento.childNodes.length; i++) {
-      filtrarElemento(elemento.childNodes[i]);
+      await filtrarElemento(elemento.childNodes[i]);
     }
   }
-}*/
+}
 
-function filtrarContenido() {
+async function filtrarContenido() {
 
   // Guardar el contenido original de la página
   if (!contenidoOriginal) {
@@ -117,13 +116,8 @@ function filtrarContenido() {
   // Obtiene todo el texto del cuerpo del documento
   let texto = document.body.innerText;
 
-  // Llama a dividirLineas para dividir el texto en líneas
-  dividirLineas(texto).then(lineas => {
-    // Une las líneas con saltos de línea y asigna el resultado a elemento.nodeValue
-    document.body.innerText = lineas.join('\n');
-  }).catch(error => {
-    console.error('Error al dividir las líneas:', error);
-  });
+  
+  await filtrarElemento(document.body);
 
   //filtrarElemento(document.body);
   //agregarEtiquetasInteractivas(document.body);

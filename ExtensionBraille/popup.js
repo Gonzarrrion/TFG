@@ -59,6 +59,31 @@ window.onload = function() {
         });
     });
 }
+// Código para guardar el estado del interruptor y que se mantenga al recargar la página,
+// cambiar de pestaña, cerrar y volver a abrir el navegador, etc.
+document.getElementById('mySwitch').addEventListener('change', function(e) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        if (e.target.checked) {
+            chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarContenido"});
+            chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarPorConsola"});
+        } else {
+            chrome.tabs.sendMessage(tabs[0].id, {action: "restaurarOriginal"});
+        }
+        // Guardar el estado del interruptor
+        chrome.storage.sync.set({filtradoActivado: e.target.checked});
+    });
+});
+
+// Código para que el interruptor se mantenga en la posición correcta al recargar la página,
+// cambiar de pestaña, cerrar y volver a abrir el navegador, etc.
+window.onload = function() {
+    // Obtener el estado guardado del interruptor
+    chrome.storage.sync.get('filtradoActivado', function(data) {
+        const mySwitch = document.getElementById('mySwitch');
+        mySwitch.checked = data.filtradoActivado;
+        mySwitch.dispatchEvent(new Event('change'));
+    });
+}
 
 // Función para crear y agregar elementos p
 function mostrarConfiguracion(longitud, infoAdicional, tipoBraille) {
