@@ -32,17 +32,26 @@
         <input type="radio" id="brailleIntegral" name="tipoBraille" value="integral">
         <label for="brailleIntegral">Leer en Braille integral</label>
         <br>
-        <!-- Me redirige a la pagina de inicio -->
         <div class="btn-container">
         <button id="guardarBtn">Guardar</button>
         </div>
     </form>
     <div class="btn-container">
-    
+      <!--
       <button id="filtrarBtn" class="btn">Filtrar Contenido</button>
       <button id="restaurarBtn" class="btn">Restaurar Original</button>
       <button id="filtrarSinModificarBtn" class="btn">Filtrar sin Modificar</button>
       <button id="filtrarPorConsolaBtn" class="btn">Filtrar por Consola</button>
+      -->
+      
+      <span>Activar/desactivar filtrado</span>
+
+      <!-- Deslizador para activar/desactivar el filtrado -->
+      <label class="switch">
+        <input type="checkbox" id="mySwitch">
+        <span class="slider"></span>
+      </label>
+    
     </div>
   </div>
   <!-- Popup script -->

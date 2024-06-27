@@ -19,7 +19,7 @@ document.getElementById('guardarBtn').addEventListener('click', function(event) 
     });
 });
 
-document.getElementById('filtrarBtn').addEventListener('click', function() {
+/*document.getElementById('filtrarBtn').addEventListener('click', function() {
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, { action: 'filtrarContenido' });
     });
@@ -42,7 +42,23 @@ document.getElementById('filtrarPorConsolaBtn').addEventListener('click', functi
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarPorConsola"});
     });
-});
+});*/
+
+// Codigo para que cuando pulse el deslizador
+window.onload = function() {
+    document.getElementById('mySwitch').addEventListener('change', function(e) {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (e.target.checked) {
+                chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarContenido"});
+                chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarPorConsola"});
+                alert('Filtrado Activado');
+            } else {
+                chrome.tabs.sendMessage(tabs[0].id, {action: "restaurarOriginal"});
+                alert('Filtrado Desactivado');
+            }
+        });
+    });
+}
 
 // Función para crear y agregar elementos p
 function mostrarConfiguracion(longitud, infoAdicional, tipoBraille) {

@@ -8,8 +8,7 @@
 
     "action": {
       "default_icon": "images/icono.png",
-      "default_popup": "popup.html",
-      "content_scripts": "popup.js"
+      "default_popup": "popup.html"
     },
 
     "content_scripts": [

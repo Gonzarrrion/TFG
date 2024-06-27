@@ -1,7 +1,6 @@
 //import { equivalenciasBrailleIntegral, contarCaracteresBrailleIntegral } from './equivalenciasBraille.js';
 //import { equivalenciasBrailleComputerizado, contarCaracteresBrailleComputerizado } from './equivalenciasBraille.js'; 
 
-let contenidoFiltrado = false;
 let contenidoOriginal = '';
 
 let configuracion = {};
@@ -16,10 +15,10 @@ chrome.runtime.onMessage.addListener(
     if (request.action === "restaurarContenidoOriginal") {
       restaurarContenidoOriginal();
     }
-    
+    /*
     if (request.action === "filtrarContenidoSinModificar") {
       filtrarContenidoSinModificar();
-    }
+    }*/
 
     if (request.action === "filtrarPorConsola") {
       // Obtiene el texto del cuerpo del documento
@@ -65,10 +64,6 @@ function dividirLineas(texto) {
   return new Promise((resolve, reject) => {
     // Obtiene la configuración del almacenamiento de Chrome
     chrome.storage.sync.get(['longitudMaxima', 'brailleComputerizado', 'brailleIntegral'], function(configuracion) {
-      if (contenidoFiltrado == true) {
-        reject('El contenido ya está filtrado');
-        return;
-      }
 
       let lineas = [];
       const bloques = texto.split('\n'); // Divide el texto en bloques por nueva línea
@@ -100,7 +95,7 @@ function dividirLineas(texto) {
   });
 }
 
-
+/*
 function filtrarElemento(elemento) {
   if (elemento.nodeType === Node.TEXT_NODE) {
     const texto = elemento.nodeValue;
@@ -111,21 +106,27 @@ function filtrarElemento(elemento) {
       filtrarElemento(elemento.childNodes[i]);
     }
   }
-}
+}*/
 
 function filtrarContenido() {
-  if (contenidoFiltrado) { // Si el contenido ya fue filtrado, no hacer nada
-    return;
-  }
 
   // Guardar el contenido original de la página
   if (!contenidoOriginal) {
     contenidoOriginal = document.body.innerHTML;
   }
+  // Obtiene todo el texto del cuerpo del documento
+  let texto = document.body.innerText;
 
-  filtrarElemento(document.body);
+  // Llama a dividirLineas para dividir el texto en líneas
+  dividirLineas(texto).then(lineas => {
+    // Une las líneas con saltos de línea y asigna el resultado a elemento.nodeValue
+    document.body.innerText = lineas.join('\n');
+  }).catch(error => {
+    console.error('Error al dividir las líneas:', error);
+  });
+
+  //filtrarElemento(document.body);
   //agregarEtiquetasInteractivas(document.body);
-  contenidoFiltrado = true;
 }
 
 function restaurarContenidoOriginal(){
@@ -133,11 +134,9 @@ function restaurarContenidoOriginal(){
   if (contenidoOriginal) {
     document.body.innerText = contenidoOriginal;
   }
-  
-  contenidoFiltrado = false;
   contenidoOriginal = '';
 }
-
+/*
 function filtrarContenidoSinModificar() {
 
   if (!contenidoOriginal) { 
@@ -145,8 +144,7 @@ function filtrarContenidoSinModificar() {
   }
 
   filtrarElemento(document.body);
-  contenidoFiltrado = true;
-}
+}*/
 
 
 
@@ -174,7 +172,7 @@ function agregarEtiquetasInteractivas(elemento) {
 // Equivalencias de caracteres mas comunes en Braille integral (Braille de seis puntos en castellano)
 
 const equivalenciasBrailleIntegral = {
-  /*' ': 1,*/ 'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1,
+  ' ': 1, 'a': 1, 'b': 1, 'c': 1, 'd': 1, 'e': 1, 'f': 1, 'g': 1, 'h': 1, 'i': 1, 'j': 1,
   'k': 1, 'l': 1, 'm': 1, 'n': 1, 'o': 1, 'p': 1, 'q': 1, 'r': 1, 's': 1, 't': 1,
   'u': 1, 'v': 1, 'w': 1, 'x': 1, 'y': 1, 'z': 1, 'á': 1, 'é': 1, 'í': 1, 'ó': 1, 
   'ú': 1, 'ü': 1, 'ñ': 1, 
@@ -215,7 +213,7 @@ function contarCaracteresBrailleIntegral(texto) {
 // Equivalencias de caracteres mas comunes en Braille computerizado (Braille de ocho puntos en castellano)
 
 const equivalenciasBrailleComputerizado = {
-  /*' ': 1,*/ '!': 1, '"': 1, '#': 1, '$': 1, '%': 1, '&': 1, "'": 1, 
+  ' ': 1, '!': 1, '"': 1, '#': 1, '$': 1, '%': 1, '&': 1, "'": 1, 
   '(': 1, ')': 1, '*': 1, '+': 1, ',': 1, '-': 1, '.': 1, '/': 2, 
   '0': 1, '1': 1, '2': 1, '3': 1, '4': 1, '5': 1, '6': 1, '7': 1, 
   '8': 1, '9': 1, ':': 1, ';': 1, '<': 1, '=': 1, '>': 1, '?': 1, 
