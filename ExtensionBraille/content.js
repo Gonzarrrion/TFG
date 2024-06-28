@@ -197,7 +197,6 @@ function contarCaracteresBrailleIntegral(texto) {
     } else {
       contador += 3; // Por defecto si no lo encontramos lo contamos como 3 para evitar problemas
     }
-    console.log(`Carácter: ${char}, Contador: ${contador}`);
   }
   return contador;
 }

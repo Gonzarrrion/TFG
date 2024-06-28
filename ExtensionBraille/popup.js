@@ -44,17 +44,15 @@ document.getElementById('filtrarPorConsolaBtn').addEventListener('click', functi
     });
 });*/
 
-// Codigo para que cuando pulse el deslizador
+// Codigo para cuando pulse el deslizador
 window.onload = function() {
     document.getElementById('mySwitch').addEventListener('change', function(e) {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (e.target.checked) {
                 chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarContenido"});
                 chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarPorConsola"});
-                alert('Filtrado Activado');
             } else {
                 chrome.tabs.sendMessage(tabs[0].id, {action: "restaurarOriginal"});
-                alert('Filtrado Desactivado');
             }
         });
     });
@@ -66,8 +64,11 @@ document.getElementById('mySwitch').addEventListener('change', function(e) {
         if (e.target.checked) {
             chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarContenido"});
             chrome.tabs.sendMessage(tabs[0].id, {action: "filtrarPorConsola"});
+            alert('El filtrado de contenido esta activado');
         } else {
             chrome.tabs.sendMessage(tabs[0].id, {action: "restaurarOriginal"});
+
+            alert('El filtrado de contenido esta desactivado');
         }
         // Guardar el estado del interruptor
         chrome.storage.sync.set({filtradoActivado: e.target.checked});
@@ -117,6 +118,42 @@ function mostrarConfiguracion(longitud, infoAdicional, tipoBraille) {
     document.body.appendChild(p4);
 }
 
+/// Guardar el estado del formulario y del interruptor cuando se haga clic en el botón Guardar
+document.getElementById('guardarBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    var longitud = document.getElementById('longitud').value;
+    var infoAdicional = document.getElementById('infoAdicional').checked;
+    var tipoBraille = document.querySelector('input[name="tipoBraille"]:checked').value;
+    var filtradoActivado = document.getElementById('mySwitch').checked;
+
+    // Ajustar la longitud si infoAdicional está activado
+    longitud = infoAdicional ? longitud - 5 : longitud;
+
+    chrome.storage.sync.set({
+        longitud: longitud,
+        infoAdicional: infoAdicional,
+        tipoBraille: tipoBraille,
+        filtradoActivado: filtradoActivado
+    }, function() {
+        // Mostrar la configuración después de guardarla
+        mostrarConfiguracion(longitud, infoAdicional, tipoBraille);
+    });
+});
+
+// Recuperar el estado del formulario y del interruptor cuando se cargue la extensión
+window.onload = function() {
+    chrome.storage.sync.get(['longitud', 'infoAdicional', 'tipoBraille', 'filtradoActivado'], function(data) {
+        document.getElementById('longitud').value = data.longitud || '40';
+        document.getElementById('infoAdicional').checked = data.infoAdicional || false;
+        document.querySelector(`input[name="tipoBraille"][value="${data.tipoBraille || 'computerizado'}"]`).checked = true;
+        document.getElementById('mySwitch').checked = data.filtradoActivado || false;
+
+        // Mostrar la configuración después de recuperarla
+        mostrarConfiguracion(data.longitud, data.infoAdicional, data.tipoBraille);
+    });
+};
+
 // Código para mostrar la configuración actual en el popup
 document.addEventListener('DOMContentLoaded', function() {
     chrome.storage.sync.get(['longitudMaxima', 'infoAdicional', 'brailleComputerizado', 'brailleIntegral'], function(configuracion) {
@@ -136,39 +173,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Mostrar la configuración
         mostrarConfiguracion(longitud, configuracion.infoAdicional, tipoBraille);
-    });
-});
-
-// Código para guardar la configuración y actualizar el texto
-document.getElementById('guardarBtn').addEventListener('click', function() {
-    // Obtener los valores actuales de los elementos del formulario
-    let longitudMaxima = document.getElementById('longitud').value;
-    let infoAdicional = document.getElementById('infoAdicional').checked;
-    let brailleComputerizado = document.getElementById('brailleComputerizado').checked;
-    let brailleIntegral = document.getElementById('brailleIntegral').checked;
-
-    // Guardar la configuración
-    chrome.storage.sync.set({
-        'longitudMaxima': longitudMaxima,
-        'infoAdicional': infoAdicional,
-        'brailleComputerizado': brailleComputerizado,
-        'brailleIntegral': brailleIntegral
-    }, function() {
-        // Guardar el valor original de la longitud máxima
-        let longitudOriginal = longitudMaxima;
-
-        // Ajustar la longitud máxima si infoAdicional está activado
-        let longitud = infoAdicional ? longitudOriginal - 5 : longitudOriginal;
-
-        // Determinar el tipo de braille seleccionado
-        let tipoBraille = 'ninguno';
-        if (brailleIntegral) {
-            tipoBraille = 'integral';
-        } else if (brailleComputerizado) {
-            tipoBraille = 'computerizado';
-        }
-
-        // Mostrar la configuración
-        mostrarConfiguracion(longitud, infoAdicional, tipoBraille);
     });
 });
