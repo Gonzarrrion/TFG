@@ -100,15 +100,15 @@ function mostrarConfiguracion(longitud, infoAdicional, tipoBraille) {
     p1.style.marginLeft = '20px';
 
     let p2 = document.createElement('p');
-    p2.textContent = 'Longitud máxima de línea: ' + longitud;
+    p2.innerHTML = 'Longitud máxima de línea: <strong>' + longitud + '</strong>';
     p2.style.marginLeft = '20px';
 
     let p3 = document.createElement('p');
-    p3.textContent = 'Caracteres de información adicional: ' + (infoAdicional ? 'activado' : 'desactivado');
+    p3.innerHTML = 'Caracteres de información adicional: <strong>' + (infoAdicional ? 'activado' : 'desactivado') + '</strong>';
     p3.style.marginLeft = '20px';
 
     let p4 = document.createElement('p');
-    p4.textContent = 'Tipo de braille seleccionado: ' + tipoBraille;
+    p4.innerHTML = 'Tipo de braille seleccionado: <strong>' + tipoBraille + '</strong>';
     p4.style.marginLeft = '20px';
 
     // Agregar los elementos p al final del body del popup
