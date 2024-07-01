@@ -97,13 +97,15 @@ function dividirLineas(texto) {
 
 async function filtrarElemento(elemento) {
   if (elemento.nodeType === Node.TEXT_NODE) {
-    const texto = elemento.nodeValue;
-    const lineasFiltradas = await dividirLineas(texto);
-    elemento.nodeValue = lineasFiltradas.join('\n');
+      // Si el elemento es un nodo de texto, filtramos su contenido
+      const texto = elemento.nodeValue;
+      const lineasFiltradas = await dividirLineas(texto); // Filtramos el texto según la longitud máxima
+      elemento.nodeValue = lineasFiltradas.join('\n'); // Actualizamos el contenido del nodo de texto
   } else {
-    for (let i = 0; i < elemento.childNodes.length; i++) {
-      await filtrarElemento(elemento.childNodes[i]);
-    }
+      // Si el elemento es un nodo de elemento (HTML), recursivamente filtramos sus nodos hijos
+      for (let i = 0; i < elemento.childNodes.length; i++) {
+          await filtrarElemento(elemento.childNodes[i]);
+      }
   }
 }
 
