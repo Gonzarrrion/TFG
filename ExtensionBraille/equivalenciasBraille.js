@@ -94,3 +94,4 @@ const equivalenciasBrailleComputerizado = {
   
   export { equivalenciasBrailleComputerizado, contarCaracteresBrailleComputerizado };
   
+

@@ -8,16 +8,19 @@
 
     "action": {
       "default_icon": "images/icono.png",
-      "default_popup": "popup.html",
-      "content_scripts": "popup.js"
+      "default_popup": "popup.html"
     },
 
     "content_scripts": [
       {
         "matches": ["*://*/*"],
-        "js": ["content.js"],
+        "js": ["script/sweetalert2.js", "content.js"],
         "run_at": "document_idle"
       }
-    ]
+    ],
+
+    "background": {
+      "service_worker": "background.js"
+    }
   }
   
